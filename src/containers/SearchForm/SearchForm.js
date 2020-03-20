@@ -1,14 +1,13 @@
 import React from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Row, Col } from 'antd';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
-const layout = {
-    labelCol: { span: 8 },
-    wrapperCol: { span: 16 },
-};
 
-const tailLayout = {
-    wrapperCol: { offset: 8, span: 16 },
-};
+const searchPartInputLayout = {
+  labelCol: { span: 4 },
+  wrapperCol: { span: 20 },
+}
+
 
 const SearchForm = () => {
     const onFinish = values => {
@@ -21,29 +20,106 @@ const SearchForm = () => {
   
     return (
       <Form
-        {...layout}
         name="searchForm"
-        initialValues={{ pageType: 'SearchPage' }}
+        initialValues={{typePage: "S"}}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
-        <Form.Item
-          label="Username"
-          name="username"
-          rules={[{ required: true, message: 'Please input your username!' }]}
-        >
-          <Input />
-        </Form.Item>
+        <Row gutter="16">
+          <Col span="2">Page Name</Col>
+          <Col>
+            <Form.Item
+              name="pageName"
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+
+          <Col>
+            <Form.Item
+              name="author"
+              label="Author"
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col>
+            <Form.Item
+              name="subject"
+              label="Subject"
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
+        
+        
+        <Form.List name="searchPartLines">
+        {(fields, { add, remove }) => {
+          return (
+            <Row gutter="16">
+              <Col span="2">Search Form</Col>
+              <Col>
+                <Form.Item >
+                  <Button
+                    type="dashed"
+                    onClick={() => {
+                      add();
+                    }}
+                  >
+                    <PlusOutlined /> Add Search Horizontal Line
+                  </Button>
+                </Form.Item>
+              </Col>
+              {fields.map((field, index) => (
+                <Form.Item
+                  key={field.key}
+                  label="Line 1"
+                  labelCol={{span: 24}}
+                >
+                  <Row gutter="16">
+                    <Col>
+                      <Form.Item
+                        label="Select Item"
+                        name="selectItem"
+                        {...searchPartInputLayout}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                    <Col>
+                      <Form.Item
+                        label="Format Item"
+                        name="formatItem"
+                        {...searchPartInputLayout}
+                      >
+                        <Input />
+                    </Form.Item>
+                    </Col>
+                    <Col>
+                      {fields.length > 1 ? (
+                        <MinusCircleOutlined
+                          className="dynamic-delete-button"
+                          onClick={() => {
+                            remove(field.name);
+                          }}
+                        />
+                      ) : null}
+                    </Col>
+                  </Row>
+                  
+                  
+                  
+                </Form.Item>
+              ))}
+              
+            </Row>
+          );
+        }}
+        </Form.List>
+          
   
-        <Form.Item
-          label="Password"
-          name="password"
-          rules={[{ required: true, message: 'Please input your password!' }]}
-        >
-          <Input.Password />
-        </Form.Item>
-  
-        <Form.Item {...tailLayout}>
+        <Form.Item >
           <Button type="primary" htmlType="submit">
             Submit
           </Button>

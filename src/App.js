@@ -14,10 +14,10 @@ function App() {
   return (
     <div className="App">
       <Tabs defaultActiveKey="1">
-        <TabPane tab="Tab 1" key="1">
+        <TabPane tab="Search Page" key="1">
           <SearchForm></SearchForm>
         </TabPane>
-        <TabPane tab="Tab 2" key="2">
+        <TabPane tab="Registration Popup" key="2">
           <RegistrationPopupForm></RegistrationPopupForm>
         </TabPane>
       </Tabs>
