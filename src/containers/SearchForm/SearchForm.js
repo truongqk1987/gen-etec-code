@@ -1,13 +1,6 @@
 import React from 'react';
-import { Form, Input, Button, Row, Col } from 'antd';
+import { Form, Input, Button, Row, Col, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-
-
-const searchPartInputLayout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 20 },
-}
-
 
 const SearchForm = () => {
     const onFinish = values => {
@@ -26,16 +19,16 @@ const SearchForm = () => {
         onFinishFailed={onFinishFailed}
       >
         <Row gutter="16">
-          <Col span="2">Page Name</Col>
-          <Col>
+          <Col span="5">
             <Form.Item
               name="pageName"
+              label="Page"
             >
               <Input />
             </Form.Item>
           </Col>
 
-          <Col>
+          <Col span="5">
             <Form.Item
               name="author"
               label="Author"
@@ -43,7 +36,7 @@ const SearchForm = () => {
               <Input />
             </Form.Item>
           </Col>
-          <Col>
+          <Col span="5">
             <Form.Item
               name="subject"
               label="Subject"
@@ -52,70 +45,104 @@ const SearchForm = () => {
             </Form.Item>
           </Col>
         </Row>
+        <Row><h1>Search form</h1></Row>
         
-        
-        <Form.List name="searchPartLines">
-        {(fields, { add, remove }) => {
-          return (
+        <Form.List name="searchFormRows">
+        {(rows, { add, remove }) => {
+          return (<>
             <Row gutter="16">
-              <Col span="2">Search Form</Col>
               <Col>
-                <Form.Item >
+                <Form.Item>
                   <Button
                     type="dashed"
                     onClick={() => {
                       add();
                     }}
                   >
-                    <PlusOutlined /> Add Search Horizontal Line
+                    <PlusOutlined /> Add Rows
                   </Button>
                 </Form.Item>
               </Col>
-              {fields.map((field, index) => (
-                <Form.Item
-                  key={field.key}
-                  label="Line 1"
-                  labelCol={{span: 24}}
-                >
-                  <Row gutter="16">
-                    <Col>
-                      <Form.Item
-                        label="Select Item"
-                        name="selectItem"
-                        {...searchPartInputLayout}
-                      >
-                        <Input />
-                      </Form.Item>
-                    </Col>
-                    <Col>
-                      <Form.Item
-                        label="Format Item"
-                        name="formatItem"
-                        {...searchPartInputLayout}
-                      >
-                        <Input />
-                    </Form.Item>
-                    </Col>
-                    <Col>
-                      {fields.length > 1 ? (
-                        <MinusCircleOutlined
-                          className="dynamic-delete-button"
-                          onClick={() => {
-                            remove(field.name);
-                          }}
-                        />
-                      ) : null}
-                    </Col>
-                  </Row>
-                  
-                  
-                  
-                </Form.Item>
-              ))}
-              
             </Row>
-          );
-        }}
+            {rows.map((row) => (
+                <Form.List name={`${row.key}`} key={`${row.key}`}>
+                    {(uiComponents, { add, remove }) => (
+                        <>
+                            <Row gutter="16">
+                                <Col span="1"></Col>
+                                <div style={{padding: "0 1rem"}}>
+                                    <Form.Item label={<strong>{`Line ${row.key + 1}`}</strong>}>
+                                        <Button
+                                            type="dashed"
+                                            onClick={() => {
+                                            add();
+                                            }}
+                                        >
+                                            <PlusOutlined /> Add UI components
+                                        </Button>
+                                    </Form.Item>
+                                </div>
+                                <div style={{paddingLeft: '1rem'}}>
+                                    <MinusCircleOutlined
+                                        className="dynamic-delete-button"
+                                        onClick={() => {
+                                            remove(row.name);
+                                        }}
+                                    />
+                                </div>
+                            </Row>
+                            {uiComponents.map((uiComponent, index) => (
+                                <div key={uiComponent.key}>
+                                    <Row gutter="16">
+                                        <Col span="2"></Col>
+                                        <div style={{padding: '0 1rem'}}>
+                                            <Form.Item
+                                                label="ID"
+                                                name={[index, "id"]}
+                                            >
+                                                <Input />
+                                            </Form.Item>
+                                        </div>
+
+                                        <div>
+                                            <Form.Item
+                                                label="Type"
+                                                name={[index, "type"]}
+                                            >
+                                                <Select
+                                                    showSearch
+                                                    optionFilterProp="children"
+                                                    style={{ width: '200px' }}
+                                                    filterOption={(input, option) =>
+                                                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                                    }
+                                                >
+                                                    <Select.Option value="I">Input</Select.Option>
+                                                    <Select.Option value="S">Select</Select.Option>
+                                                    <Select.Option value="P">Popup</Select.Option>
+                                                </Select>,
+                                            </Form.Item>
+                                        </div>
+                                        
+                                        <div style={{paddingLeft: '1rem'}}>
+                                            <MinusCircleOutlined
+                                                className="dynamic-delete-button"
+                                                onClick={() => {
+                                                    remove(uiComponent.name);
+                                                }}
+                                            />
+                                        </div>
+                                    </Row>
+                                </div>
+                               
+                            ))}
+                            
+                        </>
+                    )}
+                </Form.List>
+            ))}
+        </>);
+    }}
         </Form.List>
           
   
