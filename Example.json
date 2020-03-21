@@ -1,0 +1,40 @@
+{
+  "searchFormRows": [
+    [
+      {
+        "type": "I",
+        "id": "cmpy",
+        "label": "Company Name",
+        "width": "120",
+        "formatters": [
+          "[\"numeric\", \"#,###.##\"]",
+          "[\"numeric\", \"#,###.###\"]"
+        ],
+        "validators": [
+          "[\"number\"]",
+          "[\"maxvalue\", \"9999999999999\"]"
+        ]
+      },
+      {
+        "type": "PP",
+        "id": "projNo",
+        "label": "Project No",
+        "selectBoxCode": ""
+      },
+      {
+        "id": "clntCLSF",
+        "label": "Client Type",
+        "width": "150",
+        "type": "S",
+        "selectBoxCode": "CLNT_CLSF"
+      }
+    ],
+    [
+      {
+        "id": "empNo",
+        "label": "Emp.No",
+        "type": "EP"
+      }
+    ]
+  ]
+}

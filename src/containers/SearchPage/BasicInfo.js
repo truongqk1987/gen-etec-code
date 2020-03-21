@@ -1,8 +1,6 @@
 import React from 'react';
-import { Form, Input, Button, Row, Col, Select, Typography } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Form, Input, Row, Col } from 'antd';
 
-const { Text, Title  } = Typography;
 
 
 const BasicInfo = () => {

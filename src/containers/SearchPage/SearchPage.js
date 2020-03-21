@@ -1,11 +1,8 @@
 import React from 'react';
-import { Form, Input, Button, Row, Col, Select, Typography } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Form, Button } from 'antd';
 
 import BasicInfo from './BasicInfo';
 import SearchForm from './SearchForm';
-
-const { Text, Title  } = Typography;
 
 const SearchPage = () => {
     const onFinish = values => {
