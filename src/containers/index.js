@@ -1,2 +1,2 @@
 export { RegistrationPopupForm } from './RegistrationPopupForm';
-export { SearchForm } from './SearchForm';
+export { SearchPage } from './SearchPage';

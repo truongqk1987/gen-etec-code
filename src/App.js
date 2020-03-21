@@ -2,7 +2,7 @@ import React from 'react';
 import { Tabs } from 'antd';
 
 import {
-  SearchForm,
+  SearchPage,
   RegistrationPopupForm
 } from './containers';
 
@@ -15,7 +15,7 @@ function App() {
     <div className="App">
       <Tabs defaultActiveKey="1">
         <TabPane tab="Search Page" key="1">
-          <SearchForm></SearchForm>
+          <SearchPage></SearchPage>
         </TabPane>
         <TabPane tab="Registration Popup" key="2">
           <RegistrationPopupForm></RegistrationPopupForm>
