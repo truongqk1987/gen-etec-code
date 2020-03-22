@@ -1,6 +1,7 @@
-const moment = require('moment');
-
-const { addFile, appendFileWithTemplate, appendFileWithText, modifyFileWithText } = require('./utils');
+const basicInfoActions = require('./basic-info-actions');
+const searchFormActions = require('./search-form-actions');
+const clearActions = require('./clear-actions');
+const { addFile } = require('./utils');
 
 module.exports = plop => {
   plop.setHelper('jsx-bracket', (txt) => `{${txt}}`);
@@ -8,35 +9,16 @@ module.exports = plop => {
   plop.setGenerator("search-page", {
     description: "Generate Search Page",
     prompts: [],
-    actions: (answers) => {
-      const {
-          pageName, author, subject, startDate
-      } = answers;
+    actions: (buidSearchPageInfo) => {
 
       let actions = [
-        addFile(pageName, 'search-page'),
-
-        // Subject
-        modifyFileWithText(
-            pageName, 
-            /(<!--SUBJECT--!>)/gi,
-            subject
-          ),
-
-        // Author
-        modifyFileWithText(
-            pageName, 
-            /(<!--AUTHOR--!>)/gi,
-            author
-        ),
-
-        // Start date
-        modifyFileWithText(
-            pageName, 
-            /(<!--START_DATE--!>)/gi,
-            moment().format('YYYY.MM.DD')
-        )
+        addFile(buidSearchPageInfo.pageName, 'search-page'),
+        ...basicInfoActions(buidSearchPageInfo),
+        ...searchFormActions(buidSearchPageInfo),
+        ...clearActions(buidSearchPageInfo)
       ]
+
+      
       return actions
     }
   });

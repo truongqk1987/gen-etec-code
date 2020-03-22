@@ -12,46 +12,7 @@
   	<!-- @@@ 조회조건 영역 -->
     <form id="search" class="searchBox" onsubmit="return false">
 		<ul>
-			<!-- First-line condition --> 
-			<li>
-				<!-- condition -->
-				<span class="cond">
-					<label>접수일자​</label>
-                    <input id="issuDtFrom" type="text" data-format='[["date", 8, "date"]]' data-validate='[["required"]]' style="width: 90px;">
-					<span>~</span>
-                    <input id="issuDtTo" type="text" data-format='[["date", 8, "date"]]' data-validate='[["required"]]' style="width: 90px;">
-				</span>
-				
-				<!-- condition -->
-				<span class="cond">
-					<label>CLAIM 구분	​</label>
-					<select style="width: 220px;" id="clamClsf">
-	                	<option value="">전체</option>
-	                </select>					
-				</span>
- 			</li>
-
-			<!-- Second-line condition --> 
-			<li>
-			<!-- condition -->
-				<!-- condition -->
-				<span class="cond">
-					<label>프로젝트​</label>
-					<input style="width: 80px;" id="projNo" type="text" data-format='[["upper"]]'>
-                   	<a id="btnProjPop" href="#" data-opts='{"size":"small", "color":"iconSearch"}'/>
-				</span>
-				
-				<span class="cond">
-					<label>고객​​</label>
-					<input style="width: 95px;" id="cmpyCd" type="text" data-format='[["upper"]]'>
-                   	<a id="btnCustPop" href="#" data-opts='{"size":"small", "color":"iconSearch"}'/>
-				</span>
-
-				<!-- action button : class action0 ~ action3 -->
-				<span class="btn">
-		            <a id="btnSearch" class="search" href="#">Search</a>
-	        	</span>
- 			</li>
+			<!--ROWS_CONDITIONS-->
 		</ul>
     </form>
     

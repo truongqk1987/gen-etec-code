@@ -28,12 +28,13 @@ const modifyFileWithText = (targetFileName, pattern, template) => {
   }
 }
 
-const appendFileWithTemplate = (targetFileName, templateFileName, pattern) => {
+const appendFileWithTemplate = (targetFileName, templateFileName, pattern, data) => {
   return {
     type: 'append',
     path: path.join(cwdPath, "build", `${targetFileName}.html`),
     pattern,
     templateFile: path.join(__dirname, "templates", `${templateFileName}.hbs`),
+    data
   }
 }
 
