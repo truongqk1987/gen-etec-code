@@ -6,13 +6,12 @@ import INPUT_TYPES from './constants/input-types';
 import FORMATTERS from './constants/formatters';
 import VALIDATORS from './constants/validators';
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 const { Option } = Select;
 
 const SearchForm = (props) => {
-    console.log(props);
     return (<>
-        <Row><Title level={4}>Search form</Title></Row>
+        <Row><Text underline type="danger" style={{fontSize: '1.25rem', padding: '1rem 0'}}>Search Form</Text></Row>
 
         <Form.List name="searchFormRows">
             {(rows, { add, remove }) => {
@@ -120,6 +119,22 @@ const SearchForm = (props) => {
                                                                 label="CODE"
                                                                 name={[uiComponent.key, "selectBoxCode"]}>
                                                                 <Input />
+                                                            </Form.Item>
+                                                            </div>
+                                                        ) : null;
+                                                    }}
+                                                </Form.Item>
+                                                <Form.Item
+                                                    noStyle
+                                                    shouldUpdate
+                                                >
+                                                    {({getFieldValue}) => {
+                                                        return getFieldValue(['searchFormRows', row.key, uiComponent.key, 'type']) === 'S' ? (
+                                                            <div style={{ padding: '0 0.5rem' }}>
+                                                            <Form.Item
+                                                                valuePropName="checked"
+                                                                name={[uiComponent.key, "hasALLValue"]}>
+                                                                <Checkbox>Has ALL option</Checkbox>
                                                             </Form.Item>
                                                             </div>
                                                         ) : null;

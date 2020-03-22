@@ -1,0 +1,23 @@
+{
+  "pageName": "cocc1000",
+  "author": "Khai.Truong",
+  "subject": "Quality Claim",
+  "searchFormRows": [
+    [
+      {
+        "type": "CP",
+        "id": "cmpyName",
+        "label": "Company",
+        "width": "120"
+      }
+    ]
+  ],
+  "gridColumns": [
+    {
+      "type": "PP",
+      "id": "projNo",
+      "header": "Project No",
+      "width": "230"
+    }
+  ]
+}

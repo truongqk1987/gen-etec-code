@@ -3,6 +3,7 @@ import { Form, Button } from 'antd';
 
 import BasicInfo from './BasicInfo';
 import SearchForm from './SearchForm';
+import MasterGrid from './MasterGrid';
 
 const SearchPage = () => {
     const onFinish = values => {
@@ -22,6 +23,7 @@ const SearchPage = () => {
       >
         <BasicInfo />
         <SearchForm />
+        <MasterGrid />
         <Form.Item >
           <Button type="primary" htmlType="submit">
             Submit
