@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+var fs = require('fs');
 var bodyParser = require('body-parser');
 var isEmpty = require('lodash.isempty');
 var nodePlop = require('node-plop');
@@ -11,8 +12,19 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.json({ type: 'application/json' }))
 
+app.post('/delete-generated-file', function(req, res) {
+    const { sourceFileName } = req.body;
+    fs.unlink(path.join(__dirname, 'build', `${sourceFileName}`), (err) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+    
+        res.end();
+    })
+})
+
 app.post('/search-page', function (req, res) {
-    console.log(req.body);
     if (!isEmpty(req.body)) {
         var buidSearchPageInfo = req.body;
         var searchPageGenerator = plop.getGenerator('search-page');

@@ -10,6 +10,7 @@ const BasicInfo = () => {
             <Form.Item
               name="pageName"
               label="Page"
+              rules={[{ required: true, message: 'Please input your page name!' }]}
             >
               <Input />
             </Form.Item>

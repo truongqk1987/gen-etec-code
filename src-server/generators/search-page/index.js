@@ -1,6 +1,5 @@
 const basicInfoActions = require('./basic-info-actions');
 const searchFormActions = require('./search-form-actions');
-const clearActions = require('./clear-actions');
 const { addFile } = require('./utils');
 
 module.exports = plop => {
@@ -15,7 +14,6 @@ module.exports = plop => {
         addFile(buidSearchPageInfo.pageName, 'search-page'),
         ...basicInfoActions(buidSearchPageInfo),
         ...searchFormActions(buidSearchPageInfo),
-        ...clearActions(buidSearchPageInfo)
       ]
 
       

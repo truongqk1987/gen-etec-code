@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form, Button } from 'antd';
 import axios from 'axios';
-import moment from 'moment';
 
 import BasicInfo from './BasicInfo';
 import SearchForm from './SearchForm';
@@ -17,6 +16,7 @@ const SearchPage = () => {
         document.body.appendChild(tempLink);
         tempLink.click();
         document.body.removeChild(tempLink);
+        axios.post('/delete-generated-file', { sourceFileName })
       })
     };
   

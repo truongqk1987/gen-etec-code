@@ -1,15 +1,18 @@
 const { modifyFileWithText } = require('./utils');
 
-module.exports = ({ pageName }) => [
-    modifyFileWithText(
-        pageName, 
-        /(<!--ROWS_CONDITIONS-->)/gi,
-        null
-    ),
+const clearConditionRowPattern = (pageName) => modifyFileWithText(
+    pageName, 
+    /(<!--ROWS_CONDITIONS-->)/gi,
+    ""
+);
 
-    modifyFileWithText(
-        pageName, 
-        /(<!--ITEM-->)/gi,
-        null
-    ),
-]
+const clearConditionItemPattern = (pageName) => modifyFileWithText(
+    pageName, 
+    /(<!--ROW_[0-9]_SEARCH_ITEM-->)/gi,
+    ""
+);
+
+module.exports = {
+    clearConditionRowPattern,
+    clearConditionItemPattern
+}
