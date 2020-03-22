@@ -1,0 +1,275 @@
+<!-- 
+/*******************************************************************************
+ * subject : <!--SUBJECT--!>
+ * @author : <!--AUTHOR--!>
+ * @since  : <!--START_DATE--!>
+ * @desc   :
+ *******************************************************************************/
+ */ -->
+ 
+ <article class="qmcl2000">
+
+  	<!-- @@@ 조회조건 영역 -->
+    <form id="search" class="searchBox" onsubmit="return false">
+		<ul>
+			<!-- First-line condition --> 
+			<li>
+				<!-- condition -->
+				<span class="cond">
+					<label>접수일자​</label>
+                    <input id="issuDtFrom" type="text" data-format='[["date", 8, "date"]]' data-validate='[["required"]]' style="width: 90px;">
+					<span>~</span>
+                    <input id="issuDtTo" type="text" data-format='[["date", 8, "date"]]' data-validate='[["required"]]' style="width: 90px;">
+				</span>
+				
+				<!-- condition -->
+				<span class="cond">
+					<label>CLAIM 구분	​</label>
+					<select style="width: 220px;" id="clamClsf">
+	                	<option value="">전체</option>
+	                </select>					
+				</span>
+ 			</li>
+
+			<!-- Second-line condition --> 
+			<li>
+			<!-- condition -->
+				<!-- condition -->
+				<span class="cond">
+					<label>프로젝트​</label>
+					<input style="width: 80px;" id="projNo" type="text" data-format='[["upper"]]'>
+                   	<a id="btnProjPop" href="#" data-opts='{"size":"small", "color":"iconSearch"}'/>
+				</span>
+				
+				<span class="cond">
+					<label>고객​​</label>
+					<input style="width: 95px;" id="cmpyCd" type="text" data-format='[["upper"]]'>
+                   	<a id="btnCustPop" href="#" data-opts='{"size":"small", "color":"iconSearch"}'/>
+				</span>
+
+				<!-- action button : class action0 ~ action3 -->
+				<span class="btn">
+		            <a id="btnSearch" class="search" href="#">Search</a>
+	        	</span>
+ 			</li>
+		</ul>
+    </form>
+    
+    
+    <!-- @@@ 내역설명 및 기능버튼 영역 -->
+  	<div class="flex-horizental">
+		<!-- @ 내역설명 -->
+	    <h5 class="point1">업체별 CLAIM​</h5>
+    </div>
+
+	<!-- @@@ Grid Object 
+    <div style="position: relative; ">-->
+    <div style="overflow-x: auto;">
+	    <table id="master">
+	     <colgroup>
+	        	<col style="width: 120px;">
+	            <col style="width: 80px;"> 
+	            <col style="width: 80px;">	
+	            
+	            <col style="width: 90px;">
+	            <col style="width: 90px;">
+	            <col style="width: 90px;">
+	            
+	            <col style="width: 90px;"> 
+	            <col style="width: 180px;">
+	            <col style="width: 120px;">
+	        </colgroup>
+	        <thead>
+	            <tr>
+	            	<!-- class='point' 		 : 포인트색
+	            		 data-filter="true"	 : 필터활성화
+	            		 data-rowspan="true" : Merge활성화 -->
+	            	
+	            	<th data-rowspan="true">업체명​</th>
+	            	<th data-rowspan="true">프로젝트​</th> 
+	            	<th>CLAIM 구분​</th>
+	            	
+	            	<th>총건수​</th>
+	            	<th>OPEN<br>건수​</th>
+	            	<th>CLOSE<br>건수​</th>
+	            	
+	            	<th>조치건수​</th>
+	            	<th>조치비용​</th>
+	            	<th>고객청구​<br>건수​</th> 
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr>
+	        	    <td id="cmpyCdNm" style="text-align: left;"></td>
+	        	    <td id="projNo" style="text-align: center;"></td>
+	        	    <td id="clamClsfNm" style="text-align: left;"></td>
+	        	    
+	        	    <td id="totCnt" style="text-align: right;"></td>
+	        	    <td id="openCnt" style="text-align: right;"></td>
+	        	    <td id="closeCnt" style="text-align: right;"></td>
+	        	    
+	                <td id="actnCnt" style="text-align: right;"></td>
+	                <td ><input id="actnTotCnt" style="text-align: right;" type="text" maxlength="20" data-format='[["numeric", "#,###.###"]]' disabled></td>
+	                <td id="chagCnt" style="text-align: right;"></td>
+	            </tr>
+	        </tbody>
+	    </table>
+	</div>
+
+	<div class="pagination-box">
+        <div id="masterPagination">
+            <ul>
+                <li><a href="#" title="처음">first</a></li>
+                <li><a href="#" title="이전">prev</a></li>
+            </ul>
+            <ul>
+                <li><a href="#"><span>1</span></a></li>
+            </ul>
+            <ul>
+                <li><a href="#" title="다음">next</a></li>
+                <li><a href="#" title="마지막">last</a></li>
+            </ul>
+        </div>
+    </div>
+    
+</article>
+
+
+
+
+<script type="text/javascript">
+(function() {
+
+    var cont = N(".qmcl2000").cont({
+
+    	/* ------------------------------------------------------------------------------------------------------------ 
+    	▶▶▶ Code Define 영역
+    	---------------------------------------------------------------------------------------------------------------- */
+    	"p.select.clamClsf": [ "CLAM_CLSF"],
+    	
+    	/* ------------------------------------------------------------------------------------------------------------ 
+    	▶▶▶ Contents Define 영역
+    	---------------------------------------------------------------------------------------------------------------- */
+        "p.form.search" : {
+            "usage" : "search-box"
+        },
+        
+        "p.grid.master" : {
+            //  height : 500, 			/* @ Grid높이 / 0이면 전체 Scroll */
+              resizable : true,			/* @ OnSize이벤트 발생시 Grid 리사이즈 활성여부 */
+              filter : false,			/* @ Column의 Filter사용여부 */
+              //fixedcol : 2,			/* @ Column의 Fix설정 */
+              select : true,
+              checkAll : "#checkAll",				/* @ Check : th의 ID 설정 */
+              checkAllTarget : ".checkAllTarget",	/* @ Check : td의 Class 설정 */
+              createRowDelay : 0,					/* @ Row생성 시 Delay설정 */
+              scrollPaging : {
+            	  size : 100
+              },
+              
+              /* @ rowHandlerBeforeBind 는 행에 데이터가 바인드 되기 전에 실행 되는 핸들러 함수 이므로 바인드 될 데이터의 값을 바꾸어 주면 바뀐 데이터로 바인드 됨 */
+               rowHandlerBeforeBind : function(rowIdx, rowEle, rowData) {
+                  rowData.rowNo = rowIdx + 1;
+              },
+              
+              /* @ rowHandler 그리드에서 data를 bind 하거나 add 할때 행이 렌더링 될 때 마다 발생 하는 이벤트 */
+              rowHandler : function(rowIdx, rowEle, rowData) {
+              }
+        },
+
+        "p.pagination.masterPagination" : {
+            blockOnChangeWhenBind : true,
+            countPerPage :20, /*한페이지에 보여줄 Row의 수*/
+            
+            onChange : function(pageNo, selEle, selData, currPageNavInfo) {
+                cont["c.getMainList"]().submit(function(data) {
+                    cont["p.pagination.masterPagination"].bind(data[0] && data[0].totalCount ? data[0].totalCount : 0 );
+                    cont["p.grid.master"].bind(data);
+                });
+            }
+        },
+
+     	/* ------------------------------------------------------------------------------------------------------------ 
+    	▶▶▶ Communication Define 영역
+    	---------------------------------------------------------------------------------------------------------------- */
+    	
+    	"c.getMainList" : function() {     
+       	 	return N($.extend(cont["p.form.search"].data()[0], cont["p.pagination.masterPagination"].currPageNavInfo())).comm(
+            "cloud/qmcl/getQmcl2000Main.json");
+       	},
+        
+    	/* ------------------------------------------------------------------------------------------------------------ 
+    	▶▶▶ Event Define 영역
+    	---------------------------------------------------------------------------------------------------------------- */
+
+        /*검색조건 - 고객 팝업 */
+        "e.btnCustPop.click" : function(e) {
+        	e.preventDefault();
+            var cmpyCd = cont["p.form.search"].val("cmpyCd"); 
+            APP.comm.popup.cmpyList.call(this, {
+                cont : cont,
+                title : "고객정보 선택",
+                cmpyInfo  : {value : "", 	readonly : false}, 	//TEXT조건 - 고객코드 또는 한글/영문 명칭
+                cmpyClsfC : {value : "Y", 	readonly : false},//고객구분 조건 (C=매출처)
+                cmpyClsfS : {value : "Y", 	readonly : false},//고객구분 조건 (S=매입/매출처)
+                cmpyClsfV : {value : "Y", 	readonly : false},//고객구분 조건 (V=매입처)
+                useIndc   : {value : "", 	readonly : false},//사용여부 조건 (Y, N, ''=전체)
+                autoReturn : true, //조회값이 1건인 경우 값 리턴
+                onCancel : function() {
+                },
+                
+                onOk : function(data) {
+                    cont["p.form.search"].val("cmpyCd",data.cmpyCd);
+                }
+            });       
+        }, 
+     
+        /*검색조건 - 공사 팝업 */
+        "e.btnProjPop.click" : function(e) {
+        	e.preventDefault();
+        	//프로젝트 팝업시 고객코드 setting
+        	var projNo = cont["p.form.search"].val("projNo"); 
+	         APP.comm.popup.projList.call(this, {
+	             cont : cont,
+	             title : "프로젝트 선택",
+	             projNo 		: {value : "", 		readonly : false}, 	//TEXT조건 - 내부 프로젝트
+	             
+	             onCancel : function() {
+	             },
+	             
+	             onOk : function(data) {
+	             	cont["p.form.search"].val("projNo", data.projNo);
+	             }
+	         });
+         
+        }, 
+    	
+    	/* 공통버튼 - 조회 */
+        "e.btnSearch.click" : function(e) {
+            e.preventDefault();
+            if (cont["p.form.search"].validate()) {
+                cont["p.pagination.masterPagination"].pageNo(1).bind();
+                cont["c.getMainList"]().submit(function(data) {
+                    cont["p.pagination.masterPagination"].bind(data[0] && data[0].totalCount ? data[0].totalCount : 0 );
+                    cont["p.grid.master"].bind(data);  // N.grid bind
+                });
+            }
+        },
+       
+     	/* ------------------------------------------------------------------------------------------------------------ 
+    	▶▶▶ Page init 영역
+    	---------------------------------------------------------------------------------------------------------------- */
+        /* 화면초기화 Event */
+        init : function(view, request) {
+
+            //수주일자 기본값 셋팅
+        	var sToday = APP.comm.func.getToday();
+        	cont["p.form.search"].val("issuDtFrom", APP.comm.func.addDate(sToday, -60));
+            cont["p.form.search"].val("issuDtTo", sToday);
+            
+          	//그리드 초기화
+        	cont["p.grid.master"].bind();
+        }
+    });
+})();
+</script>
