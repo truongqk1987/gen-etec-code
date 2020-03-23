@@ -12,7 +12,15 @@ const { Option } = Select;
 const MasterGrid = (props) => {
     return (<>
         <Row><Text underline type="danger" style={{fontSize: '1.25rem', padding: '1rem 0'}}>Master Grid</Text></Row>
-
+        <Row>
+            <Col>
+                <Form.Item
+                    valuePropName="checked"
+                    name="isPagination">
+                    <Checkbox>Has pagination</Checkbox>
+                </Form.Item>
+            </Col>
+        </Row>
         <Form.List name="gridColumns">
             {(columns, { add, remove }) => {
                 return (<>

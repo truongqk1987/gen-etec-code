@@ -2,11 +2,12 @@ const path = require("path");
 const cwdPath = process.env.PWD || process.cwd();
 
 
-const addFile = (targetFileName, templateFileName) => {
+const addFile = (targetFileName, templateFileName, data) => {
   return {
       path: path.join(cwdPath, "build", `${targetFileName}.html`),
       templateFile: path.join(__dirname, "templates", `${templateFileName}.hbs`),
-      type: "add"
+      type: "add",
+      data
   }
 }
 

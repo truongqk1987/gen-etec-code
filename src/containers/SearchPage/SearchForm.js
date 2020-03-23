@@ -41,7 +41,7 @@ const SearchForm = (props) => {
                                                 <Button
                                                     type="dashed"
                                                     onClick={() => {
-                                                        add();
+                                                        add({hasALLValue: true});
                                                     }}
                                                 >
                                                     <PlusOutlined /> Add UI components
@@ -68,6 +68,7 @@ const SearchForm = (props) => {
                                                     <Form.Item
                                                         label="ID"
                                                         name={[uiComponent.key, "id"]}
+                                                        rules={[{ required: true, message: 'Please input your ID!' }]}
                                                     >
                                                         <Input />
                                                     </Form.Item>
@@ -77,15 +78,7 @@ const SearchForm = (props) => {
                                                     <Form.Item
                                                         label="Label"
                                                         name={[uiComponent.key, "label"]}
-                                                    >
-                                                        <Input />
-                                                    </Form.Item>
-                                                </div>
-
-                                                <div style={{ padding: '0 0.5rem' }}>
-                                                    <Form.Item
-                                                        label="Width (px)"
-                                                        name={[uiComponent.key, "width"]}
+                                                        rules={[{ required: true, message: 'Please input your label!' }]}
                                                     >
                                                         <Input />
                                                     </Form.Item>
@@ -95,9 +88,10 @@ const SearchForm = (props) => {
                                                     <Form.Item
                                                         name={[uiComponent.key, "type"]}
                                                         label="Type"
+                                                        rules={[{ required: true, message: 'Please input your input type!' }]}
                                                     >
                                                         <Select
-                                                            style={{ width: 150 }}
+                                                            style={{ width: '200px' }}
                                                             placeholder="Select Input Type"
                                                             onChange={() => { }}
                                                         >

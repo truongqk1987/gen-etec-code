@@ -1,20 +1,69 @@
 <!-- 
 /*******************************************************************************
- * subject : <!--SUBJECT--!>
- * @author : <!--AUTHOR--!>
- * @since  : <!--START_DATE--!>
+ * subject : {{subject}}
+ * @author : {{author}}
+ * @since  : {{startDate}}
  * @desc   :
  *******************************************************************************/
  */ -->
  
- <article class="qmcl2000">
+ <article class="{{camelCase pageName}}">
 
+    {{#if searchFormRows}}
   	<!-- @@@ 조회조건 영역 -->
     <form id="search" class="searchBox" onsubmit="return false">
 		<ul>
-			<!--ROWS_CONDITIONS-->
+
+			{{#each (reverse searchFormRows)}}
+            <!-- {{getIndexName @index}}-line condition --> 
+            <li>
+
+                {{#each (reverse this)}}
+                {{#with this}}
+                {{#if (isEqual type 'S')}}
+                <!-- condition -->
+                <span class="cond">
+                    <label>{{label}}​</label>
+                    <select style="width: 220px;" id="{{camelCase id}}">
+                        {{#if hasALLValue}}
+                        <option value="">전체</option>
+                        {{/if}}
+                    </select>					
+                </span>
+                {{/if}}
+                {{#if (isEqual type 'PP')}}
+                <!-- condition -->
+                <span class="cond">
+                    <label>{{label}}​</label>
+                    <input style="width: 80px;" id="{{camelCase id}}" type="text" data-format='[["upper"]]'>
+                    <a id="btnProjPop" href="#" data-opts='{"size":"small", "color":"iconSearch"}'/>
+                </span>
+                {{/if}}
+                {{#if (isEqual type 'CP')}}
+                <!-- condition -->
+                <span class="cond">
+                    <label>{{label}}​</label>
+                    <input style="width: 80px;" id="{{camelCase id}}" type="text" data-format='[["upper"]]'>
+                    <a id="btnCustPop" href="#" data-opts='{"size":"small", "color":"iconSearch"}'/>
+                </span>
+                {{/if}}
+                {{#if (isEqual type 'EP')}}
+                <!-- condition -->
+                <span class="cond">
+                    <label>{{label}}​</label>
+                    <input style="width: 80px;" id="{{camelCase id}}" type="text" data-format='[["upper"]]'>
+                    <a id="btnEmpPop" href="#" data-opts='{"size":"small", "color":"iconSearch"}'/>
+                </span>
+                {{/if}}
+                {{/with}}
+                
+                {{/each}}
+            </li>
+
+            {{/each}}
 		</ul>
     </form>
+    {{/if}}
     
     
     <!-- @@@ 내역설명 및 기능버튼 영역 -->
@@ -77,6 +126,8 @@
 	    </table>
 	</div>
 
+    {{#if gridColumns}}
+    {{#if isPagination}}
 	<div class="pagination-box">
         <div id="masterPagination">
             <ul>
@@ -92,29 +143,39 @@
             </ul>
         </div>
     </div>
+    {{/if}}
+    {{/if}}
     
 </article>
-
-
-
 
 <script type="text/javascript">
 (function() {
 
-    var cont = N(".qmcl2000").cont({
+    var cont = N(".{{camelCase pageName}}").cont({
 
     	/* ------------------------------------------------------------------------------------------------------------ 
     	▶▶▶ Code Define 영역
     	---------------------------------------------------------------------------------------------------------------- */
-    	//--SELECT_DEFINITION
+    	{{#each (reverse searchFormRows)}}
+        {{#each (reverse this)}}
+        {{#with this}}
+        {{#if (isEqual type 'S')}}
+        "p.select.{{camelCase id}}": [ "{{constantCase selectBoxCode}}"],
+        {{/if}}
+        {{/with}}
+        {{/each}}
+        {{/each}}
     	
     	/* ------------------------------------------------------------------------------------------------------------ 
     	▶▶▶ Contents Define 영역
     	---------------------------------------------------------------------------------------------------------------- */
+        {{#if searchFormRows}}
         "p.form.search" : {
             "usage" : "search-box"
         },
-        
+        {{/if}}
+        {{#if gridColumns}}
+
         "p.grid.master" : {
             //  height : 500, 			/* @ Grid높이 / 0이면 전체 Scroll */
               resizable : true,			/* @ OnSize이벤트 발생시 Grid 리사이즈 활성여부 */
@@ -137,6 +198,9 @@
               rowHandler : function(rowIdx, rowEle, rowData) {
               }
         },
+        {{/if}}
+        {{#if gridColumns}}
+        {{#if isPagination}}
 
         "p.pagination.masterPagination" : {
             blockOnChangeWhenBind : true,
@@ -149,24 +213,76 @@
                 });
             }
         },
+        {{/if}}
+        {{/if}}
 
      	/* ------------------------------------------------------------------------------------------------------------ 
     	▶▶▶ Communication Define 영역
     	---------------------------------------------------------------------------------------------------------------- */
     	
+        {{#if gridColumns}}
     	"c.getMainList" : function() {     
        	 	return N($.extend(cont["p.form.search"].data()[0], cont["p.pagination.masterPagination"].currPageNavInfo())).comm(
-            "cloud/qmcl/getQmcl2000Main.json");
+            "cloud/qmcl/get{{sentenceCase pageName}}Main.json");
        	},
+        {{/if}}
         
     	/* ------------------------------------------------------------------------------------------------------------ 
     	▶▶▶ Event Define 영역
-    	---------------------------------------------------------------------------------------------------------------- */
+    	---------------------------------------------------------------------------------------------------------------- */       
+        {{#each (reverse searchFormRows)}}
+        {{#each (reverse this)}}
+        {{#with this}}
+        {{#if (isEqual type 'PP')}}
+        /*검색조건 - 공사 팝업 */
+        "e.btnProjPop.click" : function(e) {
+        	e.preventDefault();
+        	//프로젝트 팝업시 고객코드 setting
+        	var {{camelCase id}} = cont["p.form.search"].val("{{camelCase id}}"); 
+	         APP.comm.popup.projList.call(this, {
+	             cont : cont,
+	             title : "프로젝트 선택",
+	             projNo 		: {value : "", 		readonly : false}, 	//TEXT조건 - 내부 프로젝트
+	             
+	             onCancel : function() {
+	             },
+	             
+	             onOk : function(data) {
+	             	cont["p.form.search"].val("{{camelCase id}}", data.projNo);
+	             }
+	         });
+        },
 
+        {{/if}}
+        {{#if (isEqual type 'EP')}}
+        /*검색조건 - 담당자 팝업 */
+        "e.btnEmpPop.click" : function(e) {
+        	e.preventDefault();
+        	APP.comm.popup.empNoList.call(this, {
+                cont : cont,
+                title   : "사원정보 선택",
+                empNo   : {value : "",  readonly : false}, 	//TEXT조건 - 사원번호
+                empNm   : {value : "",	readonly : false},	//TEXT조건 - 사원명
+                oganCd  : {value : "",  readonly : false},	//TEXT조건 - 조직코드
+                wrkIndc : {value : "Y", readonly : false},	//Radio조건(Y,N,'') - 근무여부
+                
+                onCancel : function() {
+                	cont["p.form.search"].val("{{camelCase id}}", "");
+                },
+                
+                onOk : function(data) {
+                	cont["p.form.search"].val("{{camelCase id}}", data.empNo);
+                }
+            });
+         
+        },
+
+        {{/if}}
+        {{#if (isEqual type 'CP')}}
         /*검색조건 - 고객 팝업 */
         "e.btnCustPop.click" : function(e) {
         	e.preventDefault();
-            var cmpyCd = cont["p.form.search"].val("cmpyCd"); 
+            var {{camelCase id}} = cont["p.form.search"].val("{{camelCase id}}"); 
             APP.comm.popup.cmpyList.call(this, {
                 cont : cont,
                 title : "고객정보 선택",
@@ -180,34 +296,20 @@
                 },
                 
                 onOk : function(data) {
-                    cont["p.form.search"].val("cmpyCd",data.cmpyCd);
+                    cont["p.form.search"].val("{{camelCase id}}",data.cmpyCd);
                 }
             });       
-        }, 
-     
-        /*검색조건 - 공사 팝업 */
-        "e.btnProjPop.click" : function(e) {
-        	e.preventDefault();
-        	//프로젝트 팝업시 고객코드 setting
-        	var projNo = cont["p.form.search"].val("projNo"); 
-	         APP.comm.popup.projList.call(this, {
-	             cont : cont,
-	             title : "프로젝트 선택",
-	             projNo 		: {value : "", 		readonly : false}, 	//TEXT조건 - 내부 프로젝트
-	             
-	             onCancel : function() {
-	             },
-	             
-	             onOk : function(data) {
-	             	cont["p.form.search"].val("projNo", data.projNo);
-	             }
-	         });
-         
-        }, 
-    	
+        },
+
+        {{/if}}
+        {{/with}}
+        {{/each}}
+        {{/each}}
     	/* 공통버튼 - 조회 */
         "e.btnSearch.click" : function(e) {
             e.preventDefault();
+            {{#if gridColumns}}
+            {{#if isPagination}}
             if (cont["p.form.search"].validate()) {
                 cont["p.pagination.masterPagination"].pageNo(1).bind();
                 cont["c.getMainList"]().submit(function(data) {
@@ -215,6 +317,8 @@
                     cont["p.grid.master"].bind(data);  // N.grid bind
                 });
             }
+            {{/if}}
+            {{/if}}
         },
        
      	/* ------------------------------------------------------------------------------------------------------------ 
@@ -222,14 +326,9 @@
     	---------------------------------------------------------------------------------------------------------------- */
         /* 화면초기화 Event */
         init : function(view, request) {
-
-            //수주일자 기본값 셋팅
-        	var sToday = APP.comm.func.getToday();
-        	cont["p.form.search"].val("issuDtFrom", APP.comm.func.addDate(sToday, -60));
-            cont["p.form.search"].val("issuDtTo", sToday);
-            
-          	//그리드 초기화
+            {{#if gridColumns}}
         	cont["p.grid.master"].bind();
+            {{/if}}
         }
     });
 })();

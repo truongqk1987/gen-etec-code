@@ -1,6 +1,5 @@
 module.exports = (pageName, {
     type,
-    width, 
     id,
     defaultValue,
     maxLength,
