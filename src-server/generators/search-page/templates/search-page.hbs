@@ -238,7 +238,6 @@
         "e.btnProjPop.click" : function(e) {
         	e.preventDefault();
         	//프로젝트 팝업시 고객코드 setting
-        	var {{camelCase id}} = cont["p.form.search"].val("{{camelCase id}}"); 
 	         APP.comm.popup.projList.call(this, {
 	             cont : cont,
 	             title : "프로젝트 선택",
@@ -267,7 +266,6 @@
                 wrkIndc : {value : "Y", readonly : false},	//Radio조건(Y,N,'') - 근무여부
                 
                 onCancel : function() {
-                	cont["p.form.search"].val("{{camelCase id}}", "");
                 },
                 
                 onOk : function(data) {
@@ -282,7 +280,6 @@
         /*검색조건 - 고객 팝업 */
         "e.btnCustPop.click" : function(e) {
         	e.preventDefault();
-            var {{camelCase id}} = cont["p.form.search"].val("{{camelCase id}}"); 
             APP.comm.popup.cmpyList.call(this, {
                 cont : cont,
                 title : "고객정보 선택",
