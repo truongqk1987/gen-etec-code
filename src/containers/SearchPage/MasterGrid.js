@@ -3,8 +3,9 @@ import { Form, Input, Button, Row, Col, Select, Typography, Checkbox } from 'ant
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'; 
 
 import INPUT_TYPES from './constants/input-types';
-import FORMATTERS from './constants/formatters';
-import VALIDATORS from './constants/validators';
+
+import SFSelect from './SFComponents/SFSelect';
+import SFInput from './SFComponents/SFInput';
 
 const { Text } = Typography;
 const { Option } = Select;
@@ -95,118 +96,13 @@ const MasterGrid = (props) => {
                                     shouldUpdate
                                 >
                                     {({getFieldValue}) => {
-                                        return getFieldValue(['gridColumns', column.key, 'type']) === 'S' ? (
-                                            <div style={{ padding: '0 0.5rem' }}>
-                                            <Form.Item
-                                                label="CODE"
-                                                name={[column.key, "selectBoxCode"]}>
-                                                <Input />
-                                            </Form.Item>
-                                            </div>
-                                        ) : null;
-                                    }}
-                                </Form.Item>
-
-                                <Form.Item
-                                    noStyle
-                                    shouldUpdate
-                                >
-                                    {({getFieldValue}) => {
-                                        return getFieldValue(['gridColumns', column.key, 'type']) === 'S' ? (
-                                            <div style={{ padding: '0 0.5rem' }}>
-                                            <Form.Item
-                                                valuePropName="checked"
-                                                name={[column.key, "hasALLValue"]}>
-                                                <Checkbox>Has ALL option</Checkbox>
-                                            </Form.Item>
-                                            </div>
-                                        ) : null;
-                                    }}
-                                </Form.Item>
-                                
-                                <Form.Item
-                                    noStyle
-                                    shouldUpdate
-                                >
-                                    {({getFieldValue}) => {
-                                        return getFieldValue(['gridColumns', column.key,'type']) === 'I' ? (
-                                            <div style={{ padding: '0 0.5rem' }}>
-                                            <Form.Item
-                                                label="Default Value"
-                                                name={[column.key, "defaultValue"]}>
-                                                <Input />
-                                            </Form.Item>
-                                            </div>
-                                        ) : null;
-                                    }}
-                                </Form.Item>
-
-                                <Form.Item
-                                    noStyle
-                                    shouldUpdate
-                                >
-                                    {({getFieldValue}) => {
-                                        return getFieldValue(['gridColumns', column.key,'type']) === 'I' ? (
-                                            <div style={{ padding: '0 0.5rem' }}>
-                                            <Form.Item
-                                                label="Max Length"
-                                                name={[column.key, "maxLength"]}>
-                                                <Input />
-                                            </Form.Item>
-                                            </div>
-                                        ) : null;
-                                    }}
-                                </Form.Item>
-
-                                <Form.Item
-                                    noStyle
-                                    shouldUpdate
-                                >
-                                    {({getFieldValue}) => {
-                                        return getFieldValue(['gridColumns', column.key,'type']) === 'I' ? (
-                                            <div style={{ padding: '0 0.5rem' }}>
-                                            <Form.Item
-                                                label="Formatters"
-                                                name={[column.key, "formatters"]}>
-                                                <Select
-                                                    mode="multiple"
-                                                    style={{ width: '200px' }}
-                                                    placeholder="Please select formatters"
-                                                    defaultValue={[]}
-                                                >
-                                                    {FORMATTERS.map(({label, value}) => (
-                                                        <Option key={value}>{label}</Option>
-                                                    ))}
-                                                </Select>
-                                            </Form.Item>
-                                            </div>
-                                        ) : null;
-                                    }}
-                                </Form.Item>
-
-                                <Form.Item
-                                    noStyle
-                                    shouldUpdate
-                                >
-                                    {({getFieldValue}) => {
-                                        return getFieldValue(['gridColumns', column.key,'type']) === 'I' ? (
-                                            <div style={{ padding: '0 0.5rem' }}>
-                                            <Form.Item
-                                                label="Validators"
-                                                name={[column.key, "validators"]}>
-                                                <Select
-                                                    mode="multiple"
-                                                    style={{ width: '200px' }}
-                                                    placeholder="Please select validators"
-                                                    defaultValue={[]}
-                                                >
-                                                    {VALIDATORS.map(({label, value}) => (
-                                                        <Option key={value}>{label}</Option>
-                                                    ))}
-                                                </Select>
-                                            </Form.Item>
-                                            </div>
-                                        ) : null;
+                                        const selectedType = getFieldValue(['gridColumns', column.key,'type'])
+                                        if ( selectedType === 'S') {
+                                            return <SFSelect parentKey={column.key} />
+                                        } else if (selectedType === 'I') {
+                                            return <SFInput parentKey={column.key} />
+                                        }
+                                        return null;
                                     }}
                                 </Form.Item>
 

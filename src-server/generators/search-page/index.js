@@ -19,6 +19,14 @@ module.exports = plop => {
     x1, x2) => x1 === x2
   );
 
+  plop.setHelper('checkPopUpId', (
+    id, defaultId) => id ? plop.getHelper('camelCase')(id) : plop.getHelper('camelCase')(defaultId)
+  );
+
+  plop.setHelper('checkPopUpLabel', (
+    label, defaultLabel) => label ? label : defaultLabel
+  );
+
   plop.setHelper('reverse', (items) => !isEmpty(items) ? items.reverse() : [])
 
   plop.setGenerator("search-page", {

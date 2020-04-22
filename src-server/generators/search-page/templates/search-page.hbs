@@ -34,24 +34,34 @@
                 {{#if (isEqual type 'PP')}}
                 <!-- condition -->
                 <span class="cond">
-                    <label>{{label}}​</label>
-                    <input style="width: 80px;" id="{{camelCase id}}" type="text" data-format='[["upper"]]'>
+                    <label>{{checkPopUpLabel label "프로젝트"}}​</label>
+                    <input style="width: 80px;" id="{{checkPopUpId id "projNo"}}" type="text" data-format='[["upper"]]'>
                     <a id="btnProjPop" href="#" data-opts='{"size":"small", "color":"iconSearch"}'/>
                 </span>
                 {{/if}}
                 {{#if (isEqual type 'CP')}}
                 <!-- condition -->
                 <span class="cond">
-                    <label>{{label}}​</label>
-                    <input style="width: 80px;" id="{{camelCase id}}" type="text" data-format='[["upper"]]'>
+                    <label>{{checkPopUpLabel label "고객"}}​</label>
+                    {{#if valueKey}}
+                    <input style="width: 80px;" id="{{checkPopUpId id "cmpyCd"}}" type="text" hidden>
+                    <input style="width: 80px;" id="{{checkPopUpId valueKey "cmpyNm"}}" type="text">
+                    {{else}}
+                    <input style="width: 80px;" id="{{checkPopUpId id "cmpyCd"}}" type="text" data-format='[["upper"]]'>
+                    {{/if}}
                     <a id="btnCustPop" href="#" data-opts='{"size":"small", "color":"iconSearch"}'/>
                 </span>
                 {{/if}}
                 {{#if (isEqual type 'EP')}}
                 <!-- condition -->
                 <span class="cond">
-                    <label>{{label}}​</label>
-                    <input style="width: 80px;" id="{{camelCase id}}" type="text" data-format='[["upper"]]'>
+                    <label>{{checkPopUpLabel label "담당자"}}​</label>
+                    {{#if valueKey}}
+                    <input style="width: 80px;" id="{{checkPopUpId id "empNo"}}" type="text" hidden>
+                    <input style="width: 80px;" id="{{checkPopUpId valueKey "empNm"}}" type="text">
+                    {{else}}
+                    <input style="width: 80px;" id="{{checkPopUpId id "empNo"}}" type="text" data-format='[["upper"]]'>
+                    {{/if}}
                     <a id="btnEmpPop" href="#" data-opts='{"size":"small", "color":"iconSearch"}'/>
                 </span>
                 {{/if}}
@@ -247,7 +257,7 @@
 	             },
 	             
 	             onOk : function(data) {
-	             	cont["p.form.search"].val("{{camelCase id}}", data.projNo);
+	             	cont["p.form.search"].val("{{checkPopUpId id 'projNo'}}", data.projNo);
 	             }
 	         });
         },
@@ -269,11 +279,20 @@
                 },
                 
                 onOk : function(data) {
-                	cont["p.form.search"].val("{{camelCase id}}", data.empNo);
+                	cont["p.form.search"].val("{{checkPopUpId id 'empNo'}}", data.empNo);
+                    {{#if valueKey}}
+                    cont["p.form.search"].val("{{checkPopUpId valueKey 'empNm'}}", data.empNm);
+                    {{/if}}
                 }
             });
          
         },
+
+        {{#if valueKey}}
+        'e.{{checkPopUpId valueKey "empNm"}}.change': function(e) {
+        	cont["p.form.search"].val("{{checkPopUpId id 'empNo'}}", e.target.value);
+        },
+        {{/if}}
 
         {{/if}}
         {{#if (isEqual type 'CP')}}
@@ -293,10 +312,19 @@
                 },
                 
                 onOk : function(data) {
-                    cont["p.form.search"].val("{{camelCase id}}",data.cmpyCd);
+                    cont["p.form.search"].val("{{checkPopUpId id 'cmpyCd'}}",data.cmpyCd);
+                    {{#if valueKey}}
+                    cont["p.form.search"].val("{{checkPopUpId valueKey 'cmpyNm'}}",data.cmpyNmKor);
+                    {{/if}}
                 }
             });       
         },
+        
+        {{#if valueKey}}
+        'e.{{checkPopUpId valueKey "cmpyNm"}}.change': function(e) {
+        	cont["p.form.search"].val("{{checkPopUpId id 'cmpyCd'}}", e.target.value);
+        },
+        {{/if}}
 
         {{/if}}
         {{/with}}

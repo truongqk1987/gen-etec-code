@@ -18,7 +18,8 @@
     "plop": "^2.6.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
-    "react-scripts": "3.4.0"
+    "react-scripts": "3.4.0",
+    "uuid": "^7.0.2"
   },
   "scripts": {
     "start": "nodemon server.js",
